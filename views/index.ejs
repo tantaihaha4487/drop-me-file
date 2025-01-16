@@ -21,7 +21,7 @@
         <div class="max-w-2xl mx-auto"></div>
             <div class="flex items-center justify-center w-full">
                 <form id="upload-form">
-                    <label for="dropzone-file" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-800 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 ease-linear duration-150">
+                    <label id="dropzone" for="dropzone-file" class="flex flex-col items-center justify-center w-full h-96 xl:px-96 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-800 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-700 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600 ease-linear duration-150">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                             <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
                             <p class="mb-2 text-sm text-gray-300 dark:text-gray-400"><span class="font-semibold">Click to upload</span> or drag and drop</p>
@@ -34,23 +34,55 @@
         </div>
    </div>
    <script>
-         document.getElementById('dropzone-file').addEventListener('change', function(event) {
-            event.preventDefault();
+    /**
+     * Fix me!
+     * 1. Background is not changing to blue when file is dragged over the dropzone.
+     * 2. File is not being uploaded when dropped over the dropzone. or when selected using the file dialog.
+    */
+        const dropzone = document.getElementById('dropzone');
+        const dropzoneFile = document.getElementById('dropzone-file');
+        const uploadForm = document.getElementById('upload-form');
 
-            const form = document.getElementById('upload-form');
-            const formData = new FormData(form);
+        dropzone.addEventListener('dragover', (event) => {
+            event.preventDefault();
+            dropzone.classList.add('bg-blue-800');
+        });
+
+        dropzone.addEventListener('dragleave', () => {
+            dropzone.classList.remove('bg-blue-800');
+        });
+
+        dropzone.addEventListener('drop', (event) => {
+            event.preventDefault();
+            dropzone.classList.remove('bg-blue-800');
+            const files = event.dataTransfer.files;
+            
+            if (files.length > 0) {
+                dropzoneFile.files = files;
+                handleFileUpload(files[0]);
+            }
+        });
+
+        dropzoneFile.addEventListener('change', (event) => {
+            handleFileUpload(event.target.files[0]);
+        });
+
+        function handleFileUpload(file) {
+            const formData = new FormData();
+            formData.append('file', file);
             fetch('/upload', {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                alert(data.message);
+            .then(response => {
+                data = response.data;
+                if (response.ok) {
+                    alert(data.message);
+                } else {
+                    alert(data.error);
+                }
             })
-            .catch(error => {
-                alert('Error uploading file: ', error);
-            });
-        });
+        }
    </script>
 </body>
 </html>

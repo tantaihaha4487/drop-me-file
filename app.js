@@ -32,7 +32,7 @@ app.post('/upload', (req, res) => {
 
   const upload = multer({ storage: storage }).single('file');
   upload(req, res, (err) => {
-    if (err) return res.status(400).json({ message: 'Something went wrong!' });
+    if (err) return res.status(400).json({ error: 'Something went wrong!' });
     res.status(200).json({ message: 'File uploaded successfully.' });
   });
 });
