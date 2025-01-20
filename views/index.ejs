@@ -70,8 +70,9 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
-                data = response.data;
+            .then(async response => {
+                data = await response.json();
+                console.log(data);
                 if (response.ok) {
                     alert(data.message);
                 } else {
