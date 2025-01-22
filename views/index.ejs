@@ -35,51 +35,50 @@
     </div>
    </div>
    <script>
-        const dropzone = document.getElementById('dropzone');
-        const dropzoneFile = document.getElementById('dropzone-file');
-        const uploadForm = document.getElementById('upload-form');
+    const dropzone = document.getElementById('dropzone');
+    const dropzoneFile = document.getElementById('dropzone-file');
 
-        dropzone.addEventListener('dragover', (event) => {
-            event.preventDefault();
-            dropzone.classList.add('bg-blue-800');
-        });
+    dropzone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        dropzone.classList.add('bg-blue-800');
+    });
 
-        dropzone.addEventListener('dragleave', () => {
-            dropzone.classList.remove('bg-blue-800');
-        });
+    dropzone.addEventListener('dragleave', (event) => {
+        event.preventDefault();
+        dropzone.classList.remove('bg-blue-800');
+    });
 
-        dropzone.addEventListener('drop', (event) => {
-            event.preventDefault();
-            dropzone.classList.remove('bg-blue-800');
-            const files = event.dataTransfer.files;
-            
-            if (files.length > 0) {
-                dropzoneFile.files = files;
-                handleFileUpload(files[0]);
+    dropzone.addEventListener('drop', async (event) => {
+        event.preventDefault();
+        dropzone.classList.remove('bg-blue-800');
+        const files = event.dataTransfer.files;
+
+        console.log(files);
+        
+        if (files.length > 0) {
+            dropzoneFile.files = files;
+            for (let i = 0; i < files.length; i++) {
+                await handleFileUpload(files[i]);
             }
-        });
-
-        dropzoneFile.addEventListener('change', (event) => {
-            handleFileUpload(event.target.files[0]);
-        });
-
-        function handleFileUpload(file) {
-            const formData = new FormData();
-            formData.append('file', file);
-            fetch('/upload', {
-                method: 'POST',
-                body: formData
-            })
-            .then(async response => {
-                data = await response.json();
-                console.log(data);
-                if (response.ok) {
-                    alert(data.message);
-                } else {
-                    alert(data.error);
-                }
-            })
         }
-   </script>
+    });
+
+    dropzoneFile.addEventListener('change', async (event) => {
+        const files = event.target.files;
+        for (let i = 0; i < files.length; i++) {
+            await handleFileUpload(files[i]);
+        }
+    });
+
+    async function handleFileUpload(file) {
+        const formData = new FormData();
+        formData.append('file', file);
+        const response = await fetch('/upload', {
+            method: 'POST',
+            body: formData
+        });
+        const data = await response.json();
+    }
+</script>
 </body>
 </html>
