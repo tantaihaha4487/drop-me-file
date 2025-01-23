@@ -34,6 +34,10 @@
         </form>
     </div>
    </div>
+
+    <div class="fixed bottom-0 p-12 left-1/2 transform -translate-x-1/2" id="notifications"></div>
+
+
    <script>
     const dropzone = document.getElementById('dropzone');
     const dropzoneFile = document.getElementById('dropzone-file');
@@ -70,6 +74,10 @@
         }
     });
 
+    
+    const notifications = document.querySelector('#notifications');
+
+
     async function handleFileUpload(file) {
         const formData = new FormData();
         formData.append('file', file);
@@ -78,7 +86,24 @@
             body: formData
         });
         const data = await response.json();
+        notifications.innerHTML += `
+            <div class="container flex items-center justify-center w-full h-12 bg-green-500 text-white px-10 my-3 transition ease-in-out duration-300 animate-bounce rounded">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                <p id="notification-text">${data.message}</p>
+            </div>
+        `;
+
+        setTimeout(() => {
+            const notificationElements = notifications.children;
+            for (let element of notificationElements) {
+                element.classList.add('opacity-0');
+                setTimeout(() => {
+                    element.remove();
+                }, 1000);
+            }
+        }, 3000);
     }
 </script>
+<script src="/script.js"></script>
 </body>
 </html>
