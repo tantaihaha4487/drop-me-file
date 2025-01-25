@@ -5,7 +5,7 @@ Drop me File! Drag and drop them in webapge!
 ## Installation
 To install the project, clone the repository and install the dependencies:
 ```bash
-git clone https://github.com/yourusername/drop-me-file.git
+git clone https://github.com/tantaihaha4487/drop-me-file.git
 cd drop-me-file
 npm install
 ```
