@@ -2,8 +2,9 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const filesRoute = require('./routes/display.route');
 
-uploadPath = path.join(__dirname, 'uploads');
+const uploadPath = path.join(__dirname, 'uploads');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -17,29 +18,28 @@ const storage = multer.diskStorage({
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'views')));
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   next();
 });
 
-
 app.get('/', (req, res) => {
   res.render('index.ejs');
 });
 
-
 app.post('/upload', (req, res) => {
   // If upload path does not exist, create it!
-  if (!fs.existsSync(uploadPath)) {
-    fs.mkdirSync(uploadPath);
-  }
-
+  if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath);
   const upload = multer({ storage: storage }).single('file');
   upload(req, res, (err) => {
     if (err) return res.status(400).json({ error: 'Something went wrong!' });
     res.status(200).json({ message: 'File uploaded successfully.' });
   });
 });
+
+app.use('/display', filesRoute);
+app.use('/files', express.static(uploadPath));
 
 
 app.listen(3331, () => {
