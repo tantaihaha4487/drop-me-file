@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- Add the file-icon-vectors CSS file -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/file-icon-vectors@1.0.0/dist/file-icon-vectors.min.css" />
     <link rel="icon" href="/favicon.ico">
     <title>Drop me file.</title>
     <style>
@@ -18,6 +20,7 @@
         <% files.forEach(file => { %>
             <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center">
                 <span class="truncate max-w-full"><%= file.split('-').slice(1).join('-') %></span>
+                <span class="fiv-sqo fiv-icon-<%= file.split('.').pop() %> text-7xl p-4"></span>
                 <a href="/files/<%= file %>" download class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Download</a>
             </div>
         <% }) %>
