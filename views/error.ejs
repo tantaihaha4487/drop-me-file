@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 Not Found</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .dark-mode {
+            background-color: #1a202c;
+            color: white;
+        }
+    </style>
+</head>
+<body class="dark-mode">
+    <div class="container mx-auto text-center py-20">
+        <header>
+            <h1 class="text-4xl font-bold mb-4"><%= message %></h1>
+        </header>
+        <main>
+            <p class="mb-4"><%= error %></p>
+            <a href="/" class="text-blue-500 hover:underline">Go back to Home</a>
+        </main>
+        <footer class="mt-10">
+            <p>&copy; Drop me file.</p>
+        </footer>
+    </div>
+</body>
+</html>

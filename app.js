@@ -41,6 +41,9 @@ app.post('/upload', (req, res) => {
 app.use('/display', filesRoute);
 app.use('/files', express.static(uploadPath));
 
+app.use((req, res, next) => {
+  res.status(404).render('error.ejs', { message: "Page Not Found", error: "Sorry, the page you are looking for does not exist."} );
+});
 
 app.listen(3331, () => {
   console.log('Server is running on port 3331');

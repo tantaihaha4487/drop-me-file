@@ -7,6 +7,7 @@ const router = express.Router();
 
 router.get('/', (req, res) => {
   const files = fs.readdirSync(uploadPath);
+  if (!(files.length > 0)) return res.render('error.ejs', { message: "No Files Found", error: "Sorry, no files found in the uploads directory. Please upload any file first." });
   res.render('display.ejs', { files: files });
 });
 
