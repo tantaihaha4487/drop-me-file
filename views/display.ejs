@@ -21,7 +21,7 @@
             <div class="bg-gray-800 p-4 rounded-lg flex flex-col items-center">
                 <span class="truncate max-w-full"><%= file.split('-').slice(1).join('-') %></span>
                 <span class="fiv-sqo fiv-icon-<%= file.split('.').pop() %> text-7xl p-4"></span>
-                <a href="/files/<%= file %>" download class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Download</a>
+                <a href="/files/<%= file %>" download class="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-400  transition ease-in-out duration-300">Download</a>
             </div>
         <% }) %>
     </div>
