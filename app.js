@@ -2,8 +2,11 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+require('dotenv').config();
+
 const filesRoute = require('./routes/display.route');
 
+const PORT = process.env.PORT || 3331;
 const uploadPath = path.join(__dirname, 'uploads');
 
 const storage = multer.diskStorage({
@@ -45,6 +48,6 @@ app.use((req, res, next) => {
   res.status(404).render('error.ejs', { message: "Page Not Found", error: "Sorry, the page you are looking for does not exist."} );
 });
 
-app.listen(3331, () => {
-  console.log('Server is running on port 3331');
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
